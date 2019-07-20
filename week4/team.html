@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Week 4</title>
+
+    <style>
+
+        table{
+           margin: 0;
+           border-collapse: collapse;
+        }
+
+        table td{
+ 
+            height: 100px;
+            width: 100px;
+            text-align: center;
+        }
+
+        tr:nth-child(1) td:nth-child(1){
+            border-right: solid;
+            border-bottom: solid;
+        }
+        tr:nth-child(2) td:nth-child(1){
+            border-right: solid;
+            border-bottom: solid;
+        }
+        tr:nth-child(3) td:nth-child(1){
+            border-right: solid;
+            
+        }
+
+        tr:nth-child(1) td:nth-child(2){
+            border-right: solid;
+            border-bottom: solid;
+        }
+
+        tr:nth-child(2) td:nth-child(2){
+            border-right: solid;
+            border-bottom: solid;
+        }
+
+        tr:nth-child(3) td:nth-child(2){
+            border-right: solid;
+        }
+
+        tr:nth-child(2) td:nth-child(3){
+            border-top: solid;
+            border-bottom: solid;
+        }
+
+    
+        button{
+            padding: 2em;
+            background-color: blanchedalmond;
+
+            margin-top: 1em;
+
+        }
+
+        #messageBox{
+            border: solid;
+            width: 80%;
+            margin-top: 1em;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: .4em;
+            background-color: yellowgreen;
+            padding: 1em;
+            text-align: center;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+    <table id="board">
+    </table>
+
+    <div id="messageBox"></div>
+    
+    <button id="reset" onclick="resetBoard()">Reset </button>
+
+
+    <script>
+        
+        let player = "X";
+        let boxes = [];
+        let winner = false;
+
+        let board = document.getElementById('board');
+        let messageBox = document.getElementById('messageBox');
+
+
+        messageBox.innerHTML = 'Player: ' + player;
+
+
+
+        resetBoard();
+        
+         function resetBoard(){
+             console.log('rest');
+             boxes = [];
+            for(i = 0; i < 9; i++){
+                boxes.push(null);
+            }
+            winner = false;
+            renderBoard();
+            messageBox.innerHTML = 'Player: ' + player;
+        }
+
+        //generate the board 
+         function renderBoard(){
+
+            board.innerHTML = '';
+
+            let tr = document.createElement('tr');
+
+            for(i = 0; i < 9; i++){
+                
+                let td = document.createElement('td');
+                td.setAttribute("id",  i);
+                if(boxes[i]){
+                    td.innerHTML = boxes[i];
+                }
+                //add action listener
+                td.addEventListener("touchend", function(e){
+                    setClicked(this.getAttribute("id"));
+
+                });
+
+                tr.appendChild(td);
+
+                if(i === 2 | i === 5){
+                    board.appendChild(tr);
+                    tr = document.createElement('tr');
+                }
+
+            }
+
+            board.appendChild(tr);
+
+        }
+
+        function setClicked(id){
+            for(i = 0; i < 9; i++){
+                if(boxes[i] == null && i == id && winner === false){
+                    boxes[i] = player;
+
+                    if(player === "X"){
+                        console.log('X');
+                        player = "O";
+                        messageBox.innerHTML = 'Player: ' + player
+                    }  else {
+                        player = "X";
+                        messageBox.innerHTML = 'Player: ' + player
+                    }
+ 
+                }
+
+            }
+
+            renderBoard();
+            checkWinner();
+
+        }
+
+        function checkWinner(){
+
+            if(winner === false){
+                
+
+                if(boxes[0] === 'X' && boxes[1] === 'X' && boxes[2] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[3] === 'X' && boxes[4] === 'X' && boxes[5] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[6] === 'X' && boxes[7] === 'X' && boxes[8] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[0] === 'X' && boxes[3] === 'X' && boxes[6] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[1] === 'X' && boxes[4] === 'X' && boxes[7] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[2] === 'X' && boxes[5] === 'X' && boxes[8] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[0] === 'X' && boxes[4] === 'X' && boxes[8] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+                if(boxes[6] === 'X' && boxes[4] === 'X' && boxes[2] === 'X'  ){
+                    messageBox.innerHTML = 'X is the Winner';
+                    winner = true;
+                }
+
+                if(boxes[0] === 'O' && boxes[1] === 'O' && boxes[2] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[3] === 'O' && boxes[4] === 'O' && boxes[5] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[6] === 'O' && boxes[7] === 'O' && boxes[8] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[0] === 'O' && boxes[3] === 'O' && boxes[6] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[1] === 'O' && boxes[4] === 'O' && boxes[7] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[2] === 'O' && boxes[5] === 'O' && boxes[8] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[0] === 'O' && boxes[4] === 'O' && boxes[8] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+                if(boxes[6] === 'O' && boxes[4] === 'O' && boxes[2] === 'O'  ){
+                    messageBox.innerHTML = 'O is the Winner';
+                    winner = true;
+                }
+            }
+
+            let cats = null;
+            let cnt = 0;
+            for(i = 0; i < 9; i++){
+                if(boxes[i] != null){
+                    cnt++;
+                }
+            }
+            if(cnt === 9  && winner === false){
+                messageBox.innerHTML = 'Cats Games No Winner!';
+                winner = true;
+            }
+            
+        }
+
+    
+    </script>
+
+
+</bodO>
+</html>

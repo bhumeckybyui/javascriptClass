@@ -1,0 +1,320 @@
+<!DOCTYPE html><head>
+<meta charset="UTF-8">
+<title>Week08TeamActivity</title>
+
+<style>
+
+	body{
+		background-color: black;
+		color: white;
+	}
+
+	h2{
+		color: yellow;
+		text-align: center;
+		font-size: 3em;
+		border-top: solid;
+		border-bottom: solid;
+		padding: 1em 0;
+
+	}
+
+	#fetchOutput{
+		display: grid;
+		grid-template-columns:  1fr 1fr;
+		font-size: 1.25em;
+		grid-gap: 1em;
+		padding: 1em;
+	}
+
+	#fetchOutput div{
+
+		
+		font-size: 2em;
+		border-radius: .3em;
+		border: solid;
+		color: white;
+		align-self: center;
+		border-color: white;
+		text-transform: uppercase;
+		padding: 1em;
+	}
+
+	.list{
+		height: 3em;
+		text-align: center;
+	}
+
+	.details{
+		grid-column: 1/3;
+		height: unset;
+		display:grid;
+		grid-template-columns: 1fr;
+		text-align: left;
+
+	}
+
+	
+
+	.details label{
+		padding: 1em;
+	}
+
+	.details lable:nth-child(odd){
+		color: yellow;
+		font-style: italic;
+	}
+	.details lable:nth-child(even){
+		border-bottom: dotted;
+		border-color: white;
+		padding-bottom: 1em;
+		margin-bottom: 1em;
+	}
+
+	.details a{
+		background-color: gray;
+		border-radius: 1em;
+		text-align: center;
+		color: black;
+		padding: 1em;
+
+	}
+
+
+	#buttons button{
+		padding: 1em;
+		background-color: gray;
+		font-size: 3em;
+		border-radius: 1em;
+		border-color: white;
+	}
+
+	.hideButtons{
+		display: none;
+	}
+
+	.showButtons{
+		display: grid;
+		grid-template-columns:  1fr 1fr;
+		grid-gap: 1em;
+		padding: 1em;
+	}
+
+</style>
+</head>
+
+<body>
+<h2>Week 08 Team Activity</h2>
+<div id="fetchOutput"></div>
+
+<div id="buttons" class = "hideButtons">
+
+	<button onclick="prevPage()">Prev</button>
+	<button onclick="nextPage()">Next</button>
+
+</div>
+
+<script>
+var url = 'https://swapi.co/api/starships/';
+var pageNum = 2;
+
+var nextPg = null;
+var previousPg = null;
+
+
+async function fetchData(url){
+
+	let response = await fetch(url);
+  	let data = await response.json();
+	return data;
+
+}
+
+function getShips(url = "https://swapi.co/api/starships") {
+
+	
+
+	fetchData( url ).then(function(data) {
+
+			//set the button values from the data
+			nextPg = data.next;
+			previousPg = data.previous;
+
+			renderShips(data);
+        });
+
+	// return fetch(url + pageNum).then(function(response) {
+	// 	return response.json();
+	// })
+}
+
+function getShipDetail(url){
+
+	fetchData(url).then(function(data){
+		// console.log(data);
+		renderShip(data);
+	});
+	
+
+}
+
+function nextPage() {
+	// pageNum++;
+
+	if(nextPg != null){
+		getShips(nextPg);
+	} else {
+		console.log('nope there is nothing to load');
+	}
+	// displayShips();
+}
+
+function prevPage() {
+	// pageNum--;
+
+	if(previousPg != null){
+		getShips(previousPg);
+	} else {
+		console.log('nope there is nothing to load');
+	}
+	// displayShips();
+}
+
+function renderShips(ships){
+
+
+	
+
+	let outputDiv =  document.getElementById('fetchOutput');
+	outputDiv.innerHTML = '';
+	
+	//display the ship list
+	ships.results.forEach(function(ship){
+		//console.log(ship);
+
+		let d = document.createElement("Div");
+		d.classList.add("list");
+		let name = document.createElement("label");
+		 name.innerHTML = ship.name;
+
+		 d.appendChild(name);
+		 d.addEventListener("click", function(){ 
+			getShipDetail(ship.url);
+		});
+
+		 outputDiv.appendChild(d);
+
+
+	});
+	
+
+}
+
+function renderShip(ship){
+
+	console.log(ship);
+
+	// //hide the buttons
+	//toggle the buttons class
+	let bottons = document.getElementById('buttons');
+	bottons.classList.toggle("showButtons");
+
+	let outputDiv =  document.getElementById('fetchOutput');
+	outputDiv.innerHTML = '';
+
+	// display the ship detail
+	let d = document.createElement("Div");
+	d.classList.add("details");
+	
+	let l = document.createElement("lable");
+	l.innerHTML = "Name";
+	d.appendChild(l);
+
+	let l2 = document.createElement("lable");
+	l2.innerHTML = ship.name;
+	d.appendChild(l2);
+
+	let l3 = document.createElement("lable");
+	l3.innerHTML = "Model";
+	d.appendChild(l3);
+
+	let l4 = document.createElement("lable");
+	l4.innerHTML = ship.model;
+	d.appendChild(l4);
+
+	let l5 = document.createElement("lable");
+	l5.innerHTML = "Manufacturer";
+	d.appendChild(l5);
+
+	let l6 = document.createElement("lable");
+	l6.innerHTML = ship.manufacturer;
+	d.appendChild(l6);
+
+	let l7= document.createElement("lable");
+	l7.innerHTML = "Cost in credits";
+	d.appendChild(l7);
+
+	let l8 = document.createElement("lable");
+	l8.innerHTML = ship.cost_in_credits;
+	d.appendChild(l8);
+
+	let l9 = document.createElement("lable");
+	l9.innerHTML = "Starship Class";
+	d.appendChild(l9);
+
+	let l10 = document.createElement("lable");
+	l10.innerHTML = ship.starship_class;
+	d.appendChild(l10);
+
+	let b = document.createElement("a");
+	b.innerText = "Back To List";
+	b.addEventListener("click", function(){ 
+		getShips();
+		let bottons = document.getElementById('buttons');
+		bottons.classList.toggle("showButtons");
+    });
+
+	d.appendChild(b);
+
+	outputDiv.appendChild(d);
+	
+	//name
+	//model/
+	//manufacturer
+	//cost_in_credits
+	//length
+	//MGLT
+	//cargo_capacity
+	//consumables
+	//created
+	//crew
+	//edited
+	//hyperdrive_rating
+	//max_atmosphering_speed
+	//name
+	//passengers
+	//starship_class
+
+}
+
+// function displayShips() {
+// 	var jsonShips = getShips().then(function(ships) {
+// 		return ships.results;
+// 	});
+
+// 	jsonShips.forEach(function(ship) {
+// 		console.log(ship.name);
+// 	})
+	
+// }
+
+//show the buttons
+getShips();
+let bottons = document.getElementById('buttons');
+bottons.classList.toggle("showButtons");
+
+//displayShips();
+</script>
+
+</body>
+</html>

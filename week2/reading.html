@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<script>
+
+const hummus = function (factor) {
+const ingredient = function (amount, unit, name) {
+let ingredientAmount = amount * factor;
+if (ingredientAmount > 1) {
+unit += "s";
+}
+//really cool it can take input and makes it a value to print to the console
+console.log(`${ingredientAmount} ${unit} ${name}`);
+};
+ingredient(1, "can", "chickpeas");
+ingredient(0.25, "cup", "tahini");
+ingredient(0.25, "cup", "lemon juice");
+ingredient(1, "clove", "garlic");
+ingredient(2, "tablespoon", "olive oil");
+ingredient(0.5, "teaspoon", "cumin");
+};
+
+//netested functions inside from that takes in a value, and then uses that input value to post out.
+
+hummus(1);
+
+
+//differnet type of function decoration
+
+const power = (base, exponent) => {
+let result = 1;
+for (let count = 0; count < exponent; count++) {
+result *= base;
+}
+return result;
+};
+
+
+//you can ammit the {}
+const square1 = (x) => {
+return x * x;
+};
+const square2 = x => x * x;
+
+ 
+
+//optional with default value
+function power(base, exponent = 2) {
+let result = 1;
+for (let count = 0; count < exponent; count++) {
+result *= base;
+}
+return result;
+}
+
+console.log(power(4));
+// → 16
+console.log(power(2, 6));
+// → 64
+
+//make like an instance of an object
+function wrapValue(n) {
+let local = n;
+return () => local;
+}
+
+let wrap1 = wrapValue(1);
+let wrap2 = wrapValue(2);
+console.log(wrap1());
+// → 1
+console.log(wrap2());
+// → 2
+
+
+//and alt way of processing the amounts
+//I don't undersatnd this one
+function multiplier(factor) {
+return number => number * factor;
+}
+
+let twice = multiplier(2);
+console.log(twice(5));
+// → 10
+
+
+//exersises
+function min(num1, num2){
+
+if(num1 < num2) {
+return num1; 
+}
+return num2;
+
+}
+
+console.log(min(0, 10));
+// → 0
+console.log(min(0, -10));
+// → -10
+
+ 
+
+//find values
+function countBs(str){
+cnt = 0;
+for(i = 0; i < str.length; i++){
+
+if(str[i] === 'B')
+cnt++;
+
+}
+return cnt;
+
+}
+
+function countChar(str, delimitor){
+cnt = 0;
+for(i = 0; i < str.length; i++){
+
+if(str[i] === delimitor)
+cnt++;
+
+}
+return cnt;
+
+}
+
+
+console.log(countBs("BBC"));
+// → 2
+console.log(countChar("kakkerlak", "k"));
+// → 4
+
+
+//chapter 4 working with arrays
+function range(n1, n2){
+
+let array = [];
+
+if(n1 < n2){
+
+for(i = n1; i < n2 + 1; i++){
+array.push(i);
+
+}
+} else {
+
+for(i = n1; i > n2 - 1; i--){
+array.push(i);
+
+}
+}
+
+return array;
+
+}
+
+function sum(array){
+
+
+let answer = 0;
+for(i = 0; i < array.length; i++){
+answer+= array[i];
+}
+return answer;
+}
+
+
+console.log(range(1, 10));
+// → [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+console.log(range(5, 2, -1));
+// → [5, 4, 3, 2]
+console.log(sum(range(1, 10)));
+// → 55
+
+
+//list is not an array its more like json
+let list = {
+value: 1,
+rest: {
+value: 2,
+rest: {
+value: 3,
+rest: null
+}
+}
+};
+
+
+</script>
+
+</body>
+</html>

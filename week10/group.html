@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+        <title>Local Quakes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <style>
+            div{
+                background-color: gray;
+                padding: 1em;
+                display: flex;
+                justify-content: space-around;
+            }
+
+            div button{
+                background-color: green;
+                padding-left: 2em;
+                padding-right: 2em;
+                width: 80%;
+                padding: 1em;
+            }
+
+            div input{
+                text-align: center;
+                width: 50%;
+                padding: .8em;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+        <main>
+
+            <div>
+                <label>Radius</label>
+                <input type="number" id="radius" value="100">
+            </div>
+
+            <div>
+                <label>From Date:</label>
+                <input type="date" id="fDate">
+            </div>
+
+            <div>
+                <label> To Date:</label>
+                <input type="date" id="tDate">
+            </div>
+
+            <div>
+                <button id="goB1"> GO </button>
+            </div>
+
+            <h1>Quake List</h1>
+            <ul id="quakeList" ></ul>
+        </main>
+
+        <script src="index.js" type="module"></script>
+    </body>
+</html>

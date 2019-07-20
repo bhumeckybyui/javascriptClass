@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reading</title>
+
+    <style>
+        h1:hover{
+            color: red;
+            transform: rotate(5deg);
+
+        }
+
+        table td{
+            border: solid;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .live{
+            background-color: blue;
+            color: white;
+        }
+        .dead{
+            background-color: gray;
+            color: white;
+        }
+
+
+
+    </style>
+  
+</head>
+<body>
+    
+        <h1>hello</h1>
+
+
+        <div id="grid"></div>
+        <button id="next" onclick="nextGeneration()">Next generation</button>
+
+        <div>
+            <p>
+        Conway’s Game of Life is a simple simulation that creates artificial “life” on a grid, each cell of which is either alive or not. Each generation (turn), the following rules are applied:
+                </p>
+        Any live cell with fewer than two or more than three live neighbors dies.
+                <p>
+        Any live cell with two or three live neighbors lives on to the next generation.
+                    </p>
+        Any dead cell with exactly three live neighbors becomes a live cell.
+                    <p>
+        A neighbor is defined as any adjacent cell, including diagonally adjacent ones.
+                        </p>
+        Note that these rules are applied to the whole grid at once, not one square at a time. That means the counting of neighbors is based on the situation at the start of the generation, and changes happening to neighbor cells during this generation should not influence the new state of a given cell.
+                        <p>
+        Implement this game using whichever data structure you find appropriate. Use Math.random to populate the grid with a random pattern initially. Display it as a grid of checkbox fields, with a button next to it to advance to the next generation. When the user checks or unchecks the checkboxes, their changes should be included when computing the next generation.
+                            </p>
+    </div>
+
+
+
+        <script>
+            
+            let theGride = [];
+            theGride = generateLife();
+            drawGrid();
+
+            function drawGrid(){
+
+                let grid = document.getElementById('grid');
+                grid.innerHTML = '';
+
+                let t = document.createElement('table');
+                let id = 0;
+                
+                for(i = 0; i < 4; i++){
+                    var tr = document.createElement('tr');
+                    for(j = 0; j < 4; j++){
+                        
+                        var td = document.createElement('td');
+                        td.setAttribute("id", 'id_' + id);
+                        
+                       if(theGride[id] === 1){
+                           td.innerHTML = "L" + id;
+                           td.setAttribute("class", "live");
+                       } else {
+                           td.innerHTML = "D" + id;
+                           td.setAttribute("class", "dead");
+                       }
+
+                        // return this._quakes.features.filter(item => item.id === id)[0];
+
+                        id++;
+                        tr.appendChild(td);
+
+                    }
+                    t.appendChild(tr);
+                }   
+                grid.appendChild(t);
+            }
+
+            function generateLife(){
+
+                
+                let theGride = [
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                    randomYesOrNo(),
+                ];
+    
+                return theGride;
+
+            }
+
+            function randomYesOrNo(){
+
+                let r = Math.random()* 100;
+                if(r >= 50){
+                    return 1
+                } else {
+                    return 0
+                }
+            }
+
+            function nextGeneration(){
+
+                var tmpGride = theGride;
+
+                if(theGride[0] == 1){
+                    let cnt = 0;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[0] = 0;
+                    
+                    
+                } else {
+                    let cnt = 0;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    
+                    if(cnt === 3 || cnt === 2) tmpGride[0] = 1;
+                    
+                }
+
+                if(theGride[1] == 1){
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 )tmpGride[1] = 0;
+                    console.log(cnt);
+                }else {
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[1] = 1;
+                }
+
+                if(theGride[2] == 1){
+
+                    let cnt = 0;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[2] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[2] = 1;
+                }
+
+                if(theGride[3] == 1){
+
+                    let cnt = 0;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 )  tmpGride[3] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2)tmpGride[3] = 1;
+                }
+
+                if(theGride[4] == 1){
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+
+
+                    if(cnt < 2 || cnt > 3 )  tmpGride[4] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[4] = 1;
+                }
+
+
+                if(theGride[5] == 1){
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[5] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[0] == 1) cnt++;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[5] = 1;
+                }
+
+                if(theGride[6] == 1){
+
+                    let cnt = 0;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[6] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[1] == 1) cnt++;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(cnt === 3 || cnt === 2) tmpGride[6] = 1;
+                }
+
+                if(theGride[7] == 1){
+
+                    let cnt = 0;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+
+                if(cnt < 2 || cnt > 3 ) tmpGride[7] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[2] == 1) cnt++;
+                    if(theGride[3] == 1) cnt++;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+
+                if(cnt === 3 || cnt === 2) tmpGride[7] = 1;
+                }
+
+                if(theGride[8] == 1){
+
+                    let cnt = 0;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[8] = 0;
+                } else {
+
+                        
+                    let cnt = 0;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[8] = 1;
+                }
+                
+
+                if(theGride[9] == 1){
+
+                    let cnt = 0;
+
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[9] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[4] == 1) cnt++;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[9] = 1;
+                }
+
+                if(theGride[10] == 1){
+
+                    let cnt = 0;
+
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                if(cnt < 2 || cnt > 3 ) tmpGride[10] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[5] == 1) cnt++;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                if(cnt === 3 || cnt === 2) tmpGride[10] = 1;
+                }
+
+                if(theGride[11] == 1){
+
+                    let cnt = 0;
+  
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[11] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[6] == 1) cnt++;
+                    if(theGride[7] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[11] = 1;
+                }
+
+
+                if(theGride[12] == 1){
+
+                let cnt = 0;
+
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[12] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[12] = 1;
+                }
+
+
+                if(theGride[13] == 1){
+
+                    let cnt = 0;
+
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[13] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[8] == 1) cnt++;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[12] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[13] = 1;
+                }
+
+                if(theGride[14] == 1){
+
+                    let cnt = 0;
+
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[14] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[9] == 1) cnt++;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[13] == 1) cnt++;
+                    if(theGride[15] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) theGride[14] = 1;
+                }
+
+                if(theGride[15] == 1){
+
+                    let cnt = 0;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+
+                    if(cnt < 2 || cnt > 3 ) tmpGride[15] = 0;
+                } else {
+
+                    let cnt = 0;
+                    if(theGride[10] == 1) cnt++;
+                    if(theGride[11] == 1) cnt++;
+                    if(theGride[14] == 1) cnt++;
+
+                    if(cnt === 3 || cnt === 2) tmpGride[15] = 1;
+                }
+
+                theGride = tmpGride;
+
+                drawGrid();
+
+            }
+
+           
+
+
+        
+        </script>
+
+</body>
+</html>

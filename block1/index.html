@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+    
+        html,body,main{
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        main{
+            display: grid;
+            grid-template-rows: .3fr 3fr .1fr;
+            width: 100%;
+        }
+
+        h1{
+            text-align:  center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #board{
+            background-color: gray;
+        }
+
+        #board .space{
+            height: 9%;
+            border: solid;
+            text-align: center;
+            font-size: 3.5em;
+            color: blue;
+            border-color: black;
+
+        }
+
+        .dice{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: .4em;
+        }
+
+        .dice #dice{
+            
+            border-radius: 30px;
+            padding: 1em;
+            align-self: center;
+            font-size: 3em;
+            margin-top: .3em;
+            margin-bottom: .3em;
+            background-color: green;
+            color: white;
+        }
+        .dice #restart{
+           
+            border-radius: 30px;
+            padding: 1em;
+            align-self: center;
+            font-size: 3em;
+            margin-top: .3em;
+            margin-bottom: .3em;
+            background-color: blue;
+            color: white;
+        }
+
+        #modal{
+            position: fixed;
+            height: 90%;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            font-size: 3em;
+            background-color: green;
+            width: 80%;
+
+        }
+
+         .button{
+             margin-top: 2em;
+             bottom: 1px;
+             border: solid;
+             border-width: 3px;
+             border-color: gray;
+             background-color: #689e68
+            
+         }
+
+         .hider{
+             display: none;
+         }
+
+         .showmodal{
+             display: unset;
+         }
+
+       
+
+    </style>
+
+</head>
+
+<body>
+    
+    <!-- 
+    go back 3 space 
+    go fordward 1 space
+    go back 1 space
+
+-->
+
+
+
+
+    <main>
+
+        <div id="modal" class="hider">
+            <div id="message"> </div>
+            <div class="button" id="closeModel"> OK </div>
+        </div> 
+
+        <h1> Boring Board Game </h1>
+        
+        <div id="board">
+
+            <div class="space" id="s1">&#10022;</div>
+            <div class="space" id="s2"></div>
+            <div class="space" id="s3"></div>
+            <div class="space" id="s4"></div>
+            <div class="space" id="s5"></div>
+            <div class="space" id="s6"></div>
+            <div class="space" id="s7"></div>
+            <div class="space" id="s8"></div>
+            <div class="space" id="s9"></div>
+            <div class="space" id="s10"></div>
+
+      
+
+        </div>
+
+        <div class="dice">
+            <div id="dice">Play</div>
+            <div id="restart">New</div>
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        //track where the start is on the board
+        let position = 1;
+
+        let gameOver = false;
+
+        let moves = buildMovesArr();
+        let modal = document.getElementById('modal');
+      
+        let closeModel = document.getElementById('closeModel');
+        closeModel.addEventListener("touchend", function(){
+                modal.classList.remove("showmodal");
+        });
+
+        let dice = document.getElementById('dice');
+        dice.addEventListener("touchend", function(){
+            //roll them dice
+            let randomDice = getRandomInt(19);
+            moveStar(randomDice);
+        });
+
+        let resetB = document.getElementById('restart');
+        resetB.addEventListener("touchend", function(){
+            resetBoard();
+        });
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        function buildMovesArr(){
+
+            let moves = [];
+            for(i = 1; i < 11; i++){
+                let move = {
+                    Description : 'Move Up ' + i + ' Space(s)',
+                    Move : i
+                }
+                moves.push(move)
+                let move2 = {
+                    Description : 'Move Back ' + i + ' Space(s)',
+                    Move : (0 - i)
+                }
+                moves.push(move2);
+            }
+            return moves;
+        }
+
+        function moveStar(diceRoll){
+
+            let m = document.getElementById('message');
+            
+            if(gameOver){
+                modal.classList.add("showmodal");
+                m.innerHTML = 'You Won already click ok then, NEW to start a new game';
+
+                return false;
+
+            } 
+            //set message of the model
+            m.innerHTML = moves[diceRoll].Description;
+
+            //show the modal 
+            modal.classList.add("showmodal");
+
+            //remove old star
+            document.getElementById("s" + position).innerHTML = '';
+
+            position += moves[diceRoll].Move;
+            if(position <= 0){
+                position = 1;
+            }
+            if(position >= 10){
+                position = 10;
+
+                m.innerHTML = moves[diceRoll].Description + '<br> You Win!';
+                gameOver = true;
+            }
+
+            //add star back
+            document.getElementById("s" + position).innerHTML = '&#10022;';
+
+        }
+
+        function resetBoard(){
+
+            document.getElementById("s" + position).innerHTML = '';
+            position = 1;
+            document.getElementById("s" + position).innerHTML = '&#10022;';
+            gameOver = false;
+
+        }
+
+
+    </script>
+  
+
+</body>
+</html>

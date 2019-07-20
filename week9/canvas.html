@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <canvas width="600" height="200"></canvas>
+        <script>
+          let cx = document.querySelector("canvas").getContext("2d");
+        
+          // Your code here.
+             
+        function box1(x = 50){
+            
+            cx.beginPath();
+            cx.moveTo(x, x / 5);
+            cx.lineTo(x * 2, x / 5);
+            cx.lineTo(x * 2.4, x);
+            cx.lineTo(x * 0.6 , x);
+            cx.lineTo(x, x / 5);
+            cx.stroke();
+            
+        }
+        
+        // box1(50)
+
+        function redBox(){
+            cx.fillStyle = "#FF0000";
+            cx.rotate(45 * Math.PI / 180);
+            cx.fillRect(70, 1, 50, 50);
+        }
+  
+        // redBox();
+
+        function zigzagging(){
+            cx.beginPath();
+            cx.moveTo(10, 10);
+            let s = 1;
+            let y = 20;
+            for(i = 0; i < 20; i++){
+                if(s == 1){
+                cx.lineTo(80, y);
+                s = 0;
+                } else {
+                s = 1;
+                cx.lineTo(10, y);  
+                }
+                y+= 5;
+            }
+
+            cx.stroke();
+            
+        }
+  
+
+        
+
+        </script>
+</body>
+</html>

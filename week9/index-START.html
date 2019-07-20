@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+<script>
+
+    let getNodes = document.querySelectorAll("[data-key='65']");
+    let audio = getNodes[1];
+    let  sound1 = new Audio("sounds/clap.wav");
+    sound1.preload = 'auto';
+    sound1.load();
+
+    let getNodes2 = document.querySelectorAll("[data-key='85']");
+    let audio2 = getNodes[1];
+    let  sound2 = new Audio("sounds/hihat.wav");
+    sound2.preload = 'auto';
+    sound2.load();
+
+    let getNodes3 = document.querySelectorAll("[data-key='68']");
+    let audio3 = getNodes[1];
+    let  sound3 = new Audio("sounds/kick.wav");
+    sound3.preload = 'auto';
+    sound3.load();
+
+    let getNodes4 = document.querySelectorAll("[data-key='70']");
+    let audio4 = getNodes[1];
+    let  sound4 = new Audio("sounds/openhat.wav");
+    sound4.preload = 'auto';
+    sound4.load();
+
+    let getNodes5 = document.querySelectorAll("[data-key='71']");
+    let audio5 = getNodes[1];
+    let  sound5 = new Audio("sounds/boom.wav");
+    sound5.preload = 'auto';
+    sound5.load();
+
+    let getNodes6 = document.querySelectorAll("[data-key='72']");
+    let audio6 = getNodes[1];
+    let  sound6 = new Audio("sounds/ride.wav");
+    sound6.preload = 'auto';
+    sound6.load();
+
+    let getNodes7 = document.querySelectorAll("[data-key='74']");
+    let audio7 = getNodes[1];
+    let  sound7 = new Audio("sounds/snare.wav");
+    sound7.preload = 'auto';
+    sound7.load();
+  
+    let getNodes8 = document.querySelectorAll("[data-key='75']");
+    let audio8 = getNodes[1];
+    let  sound8 = new Audio("sounds/tom.wav");
+    sound8.preload = 'auto';
+    sound8.load();
+  
+    let getNodes9 = document.querySelectorAll("[data-key='76']");
+    let audio9 = getNodes[1];
+    let  sound9 = new Audio("sounds/tink.wav");
+    sound9.preload = 'auto';
+    sound9.load();
+  
+
+
+  document.addEventListener('keydown', function(event) {
+      // console.log(event);
+
+      
+      var getNodes = document.querySelectorAll("[data-key='" + event.keyCode + "']");
+      var d = getNodes[0];
+      d.classList.toggle('playing');
+
+      let style = d.getAttribute("style");
+      if(style){
+        let downPx = parseInt(style.substring(22,24));
+        downPx += 10;  
+        d.removeAttribute("style"); 
+        d.style.transform = 'translateY(' + downPx + 'px)';
+        if(downPx === 100){
+          
+          d.style.transform = 'translateY(0px)';
+        }
+
+      } else {
+        d.style.transform = 'translateY(10px)';
+      }
+
+   
+      
+      playSound(1, event.keyCode );
+      // d.classList.toggle('playing');
+
+   }, false);
+
+   document.addEventListener('keyup', function(event) {
+  
+      // keyup 
+      var getNodes = document.querySelectorAll("[data-key='" + event.keyCode + "']");
+      var d = getNodes[0];
+      d.classList.toggle('playing');
+
+    
+
+   }, false);
+
+  
+function playSound(volume, soundToLoad) {
+
+  
+
+  console.log(soundToLoad);
+
+
+
+  switch(soundToLoad){
+    case 65:
+      var click=sound1.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 83: 
+      var click=sound2.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 68: 
+      var click=sound3.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 70:
+      var click=sound4.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 71:
+      var click=sound5.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 72:
+      var click=sound6.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 74:
+      var click=sound7.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 75:
+      var click=sound8.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+    case 76:
+      var click=sound9.cloneNode();
+      click.volume=volume;
+      click.play();
+      break;
+  }
+
+
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
